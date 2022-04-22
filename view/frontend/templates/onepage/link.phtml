@@ -1,9 +1,9 @@
 <?php
+
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-
 use Magento\Checkout\Block\Onepage\Link;
 use Magento\Framework\Escaper;
 
@@ -12,19 +12,41 @@ use Magento\Framework\Escaper;
  * @var Escaper $escaper
  */
 ?>
-<?php if ($block->isPossibleOnepageCheckout()): ?>
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+$items = $cart->getQuote()->getAllItems();
+$weight = 0;
+foreach ($items as $item) {
+    $weight += ($item->getWeight() * $item->getQty());
+}
+if ($weight > 5) {?>
     <button type="button"
             data-role="proceed-to-checkout"
             title="<?= $escaper->escapeHtmlAttr(__('Proceed to Checkout')) ?>"
             data-mage-init='{
-                "Magento_Checkout/js/proceed-to-checkout":{
-                    "checkoutUrl":"<?= $escaper->escapeJs($block->getCheckoutUrl()) ?>"
-                }
+            "Magento_Checkout/js/proceed-to-checkout":{
+            "checkoutUrl":"<?= $escaper->escapeJs($block->getCheckoutUrl()) ?>"
+            }
+            }'
+            class="action primary checkout disabled"          
+                disabled="disabled"
+        <span><?= $escaper->escapeHtml(__('Proceed to Checkout')) ?></span>
+    </button>
+<?php } else if ($block->isPossibleOnepageCheckout()):
+    ?>
+    <button type="button"
+            data-role="proceed-to-checkout"
+            title="<?= $escaper->escapeHtmlAttr(__('Proceed to Checkout')) ?>"
+            data-mage-init='{
+            "Magento_Checkout/js/proceed-to-checkout":{
+            "checkoutUrl":"<?= $escaper->escapeJs($block->getCheckoutUrl()) ?>"
+            }
             }'
             class="action primary checkout<?= ($block->isDisabled()) ? ' disabled' : '' ?>"
             <?php if ($block->isDisabled()): ?>
                 disabled="disabled"
-            <?php endif; ?>>
+    <?php endif; ?>>
         <span><?= $escaper->escapeHtml(__('Proceed to Checkout')) ?></span>
     </button>
-<?php endif?>
+<?php endif ?>

@@ -341,18 +341,17 @@ define([
                     shippingAddress['save_in_address_book'] = 1;
                 }
                 selectShippingAddress(shippingAddress);
-              }
-//            } else if (customer.isLoggedIn() &&
-//                option &&
-//                option['is_region_required'] &&
-//                !quote.shippingAddress().region
-//            ) {
-//                messageContainer.addErrorMessage({
-//                    message: $t('Please specify a regionId in shipping address.')
-//                });
-//
-//                return false;
-//            }
+            } else if (customer.isLoggedIn() &&
+                option &&
+                option['is_region_required'] &&
+                !quote.shippingAddress().region
+            ) {
+                messageContainer.addErrorMessage({
+                    message: $t('Please specify a regionId in shipping address.')
+                });
+
+                return false;
+            }
 
             if (!emailValidationResult) {
                 $(loginFormSelector + ' input[name=username]').focus();

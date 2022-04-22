@@ -16,16 +16,15 @@
         <text args="$parent.getCustomAttributeLabel(element)"></text>
         <br/>
     </each>
-    <div class="actionButtons" style="width:85%;bottom: 20px !important;position: absolute;">
-        <button style="display:block !important; margin-top:0px;" visible="address().isEditable()" type="button"
-                class="action edit-address-link"
-                click="editAddress">
-            <span translate="'Edit'"></span>
-        </button>
-        <!-- ko if: (!isSelected()) -->
-        <button type="button" click="selectAddress" style="margin-top:0px;" class="action action-select-shipping-item">
-            <span translate="'Ship Here'"></span>
-        </button>
-        <!-- /ko -->
-    </div>
+
+    <button visible="address().isEditable()" type="button"
+            class="action edit-address-link"
+            click="editAddress">
+        <span translate="'Edit'"></span>
+    </button>
+    <!-- ko if: (!isSelected()) -->
+    <button type="button" click="selectAddress" class="action action-select-shipping-item">
+        <span translate="'Ship Here'"></span>
+    </button>
+    <!-- /ko -->
 </div>
